@@ -1,0 +1,10 @@
+# Maintainer working notes — local paths, source-project mapping, unreleased
+# status. Deliberately not published; this repo is public.
+NOTES.md
+
+.DS_Store
+Thumbs.db
+desktop.ini
+*.wilcobak
+.idea/
+.vscode/

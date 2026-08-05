@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hopzle — Streamer tools, in Discord</title>
+<meta name="description" content="Hopzle makes free tools for streamers and content creators. The tools live in our Discord — come grab them.">
+
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hopzle — Streamer tools, in Discord">
+<meta property="og:description" content="Free tools for streamers and content creators. The tools live in our Discord.">
+<meta property="og:image" content="https://hopzle.com/assets/logo.png">
+<meta property="og:url" content="https://hopzle.com/">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --cyan:#16e0d2;
+    --yellow:#ffd400;
+    --magenta:#ff2fd0;
+    --green:#3dfc3d;
+    --ink:#0c1116;
+    --ink-2:#141c24;
+    --ink-3:#0f1820;
+    --line:#22303c;
+    --text:#e8f1f5;
+    --muted:#8fa5b3;
+    --discord:#5865f2;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--text);
+    font-family:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;
+    line-height:1.6;
+    background-image:
+      radial-gradient(60rem 32rem at 50% -14rem, rgba(22,224,210,.16), transparent 70%),
+      radial-gradient(44rem 26rem at 88% 6%, rgba(255,47,208,.10), transparent 70%);
+    background-repeat:no-repeat;
+  }
+  img{max-width:100%;height:auto}
+
+  .wrap{width:100%;max-width:56rem;margin:0 auto;padding:0 1.25rem}
+
+  /* ---------- hero ---------- */
+  header{text-align:center;padding:2.25rem 0 1.5rem}
+  .hero-mark{
+    display:flex;align-items:center;justify-content:center;
+    gap:1rem;margin-bottom:.9rem;
+  }
+  .logo{width:5rem;flex:none;
+        filter:drop-shadow(0 .4rem 1.2rem rgba(22,224,210,.35))}
+  .wordmark{width:min(15rem,44vw);flex:none}
+  .tagline{font-size:1.08rem;margin:0 auto;max-width:34rem}
+
+  /* ---------- discord CTA ---------- */
+  .cta{
+    display:inline-flex;align-items:center;gap:.65rem;
+    margin-top:1.35rem;padding:.95rem 2rem;
+    background:var(--discord);color:#fff;
+    font-family:'Bungee',cursive;font-size:1.02rem;letter-spacing:.02em;
+    border-radius:999px;text-decoration:none;
+    box-shadow:0 .6rem 1.6rem rgba(88,101,242,.42);
+    transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
+  }
+  .cta:hover,.cta:focus-visible{
+    transform:translateY(-2px);background:#4752e0;
+    box-shadow:0 .85rem 2.1rem rgba(88,101,242,.55);
+  }
+  .cta svg{width:1.5rem;height:1.5rem;flex:none;fill:currentColor}
+  .cta-note{margin:.8rem 0 0;font-size:.84rem;color:var(--muted)}
+
+  /* ---------- section head ---------- */
+  .section-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+    margin:1.75rem 0 1.15rem;padding-bottom:.7rem;border-bottom:1px solid var(--line);
+  }
+  h2{font-family:'Bungee',cursive;font-weight:400;font-size:1.3rem;
+     margin:0;color:var(--cyan);letter-spacing:.02em}
+  .section-head p{margin:0;color:var(--muted);font-size:.84rem;text-align:right}
+
+  /* ---------- badges ---------- */
+  .badge{
+    font-weight:600;font-size:.63rem;letter-spacing:.09em;text-transform:uppercase;
+    padding:.2rem .55rem;border-radius:999px;white-space:nowrap;
+  }
+  .badge.live{background:rgba(61,252,61,.14);color:var(--green);border:1px solid rgba(61,252,61,.32)}
+  .badge.soon{background:rgba(143,165,179,.12);color:var(--muted);border:1px solid var(--line)}
+  .badge.beta{background:rgba(255,212,0,.14);color:var(--yellow);border:1px solid rgba(255,212,0,.32)}
+
+  /* ---------- the tool grid ---------- */
+  .grid{
+    display:grid;gap:1rem;
+    grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));
+  }
+  .card{
+    display:flex;flex-direction:column;
+    background:var(--ink-2);border:1px solid var(--line);border-radius:.9rem;
+    padding:1.25rem;
+    transition:border-color .15s ease,transform .15s ease;
+  }
+  .card:hover{border-color:rgba(22,224,210,.45);transform:translateY(-2px)}
+  .card.is-live{border-color:rgba(61,252,61,.3)}
+  .card.is-live:hover{border-color:rgba(61,252,61,.55)}
+
+  /* one fixed-height stage, so mixed logo shapes still line up across the grid */
+  .card-art{
+    height:7rem;margin-bottom:1rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .card-art img,.card-art video{max-height:7rem;max-width:100%;width:auto;display:block}
+  /* NOTE: keep the show/hide selectors CLASS-ONLY. `.card-art .anim-still` is
+     (0,2,0) and beats the (0,1,1) sizing rule above regardless of whether the
+     element is an <img> or a <video>. An earlier bare `.anim-still{display:none}`
+     LOST to `.card-art img{display:block}` and rendered both frames stacked. */
+  .card-art .anim-still{display:none}
+  /* Rounded corners only — deliberately NO background. The TriggerWord video
+     carries real alpha, so a background here would sit behind the transparent
+     pixels and undo it. The radius exists for players that can't composite
+     WebM alpha (Safari), which fall back to the black-backed MP4. */
+  .card-art .screen{border-radius:.7rem}
+  /* stand-in tile for a tool that has no logo art yet */
+  .card-art .ph{
+    width:5.5rem;height:5.5rem;border-radius:1rem;font-size:2.4rem;
+    background:var(--ink-3);border:1px solid var(--line);
+    display:grid;place-items:center;
+  }
+
+  .card h3{
+    margin:0 0 .35rem;font-size:1.05rem;font-weight:600;
+    display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;
+  }
+  .card p{margin:0;color:var(--muted);font-size:.9rem;flex:1}
+
+  .btn-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+  .btn-sm{
+    display:inline-block;padding:.38rem .9rem;border-radius:999px;
+    font-size:.8rem;font-weight:600;text-decoration:none;white-space:nowrap;
+    border:1px solid var(--line);color:var(--text);background:var(--ink-3);
+    transition:border-color .15s ease,color .15s ease,background .15s ease;
+  }
+  .btn-sm:hover,.btn-sm:focus-visible{border-color:var(--cyan);color:var(--cyan)}
+  .btn-sm.primary{background:rgba(61,252,61,.12);border-color:rgba(61,252,61,.4);color:var(--green)}
+  .btn-sm.primary:hover,.btn-sm.primary:focus-visible{background:rgba(61,252,61,.2);color:var(--green)}
+  .pending{margin-top:1rem;font-size:.8rem;color:var(--muted);opacity:.8}
+
+  /* ---------- notice ---------- */
+  .notice{
+    margin-top:2.25rem;padding:1.1rem 1.25rem;
+    background:rgba(255,212,0,.06);border:1px solid rgba(255,212,0,.24);
+    border-left:3px solid var(--yellow);border-radius:.6rem;
+    font-size:.9rem;color:var(--muted);
+  }
+  .notice strong{color:var(--text)}
+
+  /* ---------- footer ---------- */
+  footer{
+    margin-top:2.75rem;padding:1.6rem 0 2.5rem;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+    color:var(--muted);font-size:.84rem;
+  }
+  footer a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line)}
+  footer a:hover,footer a:focus-visible{color:var(--cyan);border-color:var(--cyan)}
+  .footer-links{display:flex;gap:1.25rem;flex-wrap:wrap}
+
+  @media (max-width:34rem){
+    header{padding:2.25rem 0 1.5rem}
+    .section-head{flex-direction:column;gap:.3rem}
+    .section-head p{text-align:left}
+    footer{flex-direction:column;align-items:flex-start}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+    .cta:hover,.card:hover{transform:none}
+    .card-art .anim{display:none}
+    .card-art .anim-still{display:block}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="hero-mark">
+      <img class="logo" src="assets/logo.png" alt="" width="320" height="320">
+      <img class="wordmark" src="assets/wordmark.png" alt="Hopzle" width="640" height="224">
+    </div>
+
+    <p class="tagline">Free tools for streamers and content creators.</p>
+
+    <a class="cta" href="https://discord.gg/r4z4EVnt9U">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09-.01-.02-.04-.03-.07-.03-1.5.26-2.93.71-4.27 1.33-.01 0-.02.01-.03.02-2.72 4.07-3.47 8.03-3.1 11.95 0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.03.01.06 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25.02-.02.05-.02.07-.01 3.44 1.57 7.15 1.57 10.55 0 .02-.01.05-.01.07.01.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.02.06.03.09.02 1.72-.53 3.45-1.33 5.25-2.65.02-.01.03-.03.03-.05.44-4.53-.73-8.46-3.1-11.95-.01-.01-.02-.02-.04-.02ZM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.84 2.12-1.89 2.12Zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.83 2.12-1.89 2.12Z"/></svg>
+      Join the Discord
+    </a>
+    <p class="cta-note">Free to join. That&rsquo;s where the tools, updates and support live.</p>
+  </header>
+
+  <main>
+
+    <div class="section-head">
+      <h2>The Tools</h2>
+      <p>Free &amp; open source &middot; one at a time</p>
+    </div>
+
+    <!-- ================================================================
+         HOW TO ADD A TOOL — copy a <div class="card"> and change:
+
+         1. ART    — one image only. If it's animated, ship a matching
+                     still and give them class="anim" / class="anim-still"
+                     so reduced-motion users get the frozen frame.
+                     Never put two visible images in .card-art.
+         2. BADGE  — class "live" / "beta" / "soon" (+ matching text).
+                     Add "is-live" to the card for the green border.
+         3. LINKS  — released: .btn-row with Download (.primary), Source,
+                     Guide. Unreleased: a <p class="pending"> line instead.
+                     Don't link a private repo — it 404s for everyone but you.
+         ================================================================ -->
+    <div class="grid">
+
+      <div class="card is-live">
+        <div class="card-art">
+          <img src="assets/hopperdock.png" alt="HopperDock" width="144" height="144" loading="lazy" decoding="async">
+        </div>
+        <h3>HopperDock <span class="badge live">Live</span></h3>
+        <p>A floating toolbar that tiles your windows, remembers exactly where they go, and launches the scripts you actually use.</p>
+        <div class="btn-row">
+          <a class="btn-sm primary" href="https://github.com/scarylasers/HopperDock/releases/latest" target="_blank" rel="noopener">Download</a>
+          <a class="btn-sm" href="https://github.com/scarylasers/HopperDock" target="_blank" rel="noopener">Source</a>
+          <a class="btn-sm" href="https://scarylasers.github.io/HopperDock/" target="_blank" rel="noopener">Guide</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-art">
+          <video class="anim screen" poster="assets/triggerword-still.webp"
+                 width="440" height="394" autoplay muted loop playsinline preload="metadata"
+                 aria-label="TriggerWord">
+            <!-- Order matters. VP9-with-alpha first so the logo floats on the
+                 card. Safari can't composite WebM alpha, but the colour under
+                 the transparent pixels is pure black, so it degrades to the
+                 rounded black screen rather than to garbage. The MP4 catches
+                 anything with no WebM support at all. -->
+            <source src="assets/triggerword-alpha.webm" type="video/webm">
+            <source src="assets/triggerword.mp4" type="video/mp4">
+          </video>
+          <img class="anim-still screen" src="assets/triggerword-still.webp" alt="TriggerWord" width="440" height="394" loading="lazy" decoding="async">
+        </div>
+        <h3>TriggerWord <span class="badge soon">Days away</span></h3>
+        <p>Say a word on stream, fire a sound. Whisper listens to what you actually say &mdash; no hotkey, no chat command.</p>
+        <p class="pending">Source drops with the release.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-art">
+          <img src="assets/bunnydeck.png" alt="Bunny Deck" width="144" height="144" loading="lazy" decoding="async">
+        </div>
+        <h3>Bunny Deck <span class="badge soon">Coming soon</span></h3>
+        <p>A Stream Deck without the Stream Deck. Turns a spare tablet or phone into a grid of shortcut buttons &mdash; no expensive hardware.</p>
+        <p class="pending">Being packaged for release.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-art">
+          <img class="anim" src="assets/cliphopper-anim.webp" alt="Clip Hopper" width="300" height="400" loading="lazy" decoding="async">
+          <img class="anim-still" src="assets/cliphopper-still.webp" alt="Clip Hopper" width="300" height="400" loading="lazy" decoding="async">
+        </div>
+        <h3>Clip Hopper <span class="badge soon">Coming soon</span></h3>
+        <p>Finds the highlights in your match &mdash; the kills &mdash; and cuts each one out for you, on your own GPU. Built for Population: ONE.</p>
+        <p class="pending">In the works.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-art">
+          <img src="assets/streamhopper.png" alt="Stream Hopper" width="144" height="144" loading="lazy" decoding="async">
+        </div>
+        <h3>Stream Hopper <span class="badge beta">In testing</span></h3>
+        <p>One panel to launch and manage the win songs, the win detector and the live clip grabber.</p>
+        <p class="pending">Needs more testing.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-art">
+          <img src="assets/gpumonitor.png" alt="GPU Monitor" width="144" height="144" loading="lazy" decoding="async">
+        </div>
+        <h3>GPU Monitor <span class="badge soon">Coming soon</span></h3>
+        <p>An always-on-top widget showing every GPU&rsquo;s load, VRAM and temperature &mdash; and which app is actually eating it.</p>
+        <p class="pending">In the works.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-art">
+          <img src="assets/voicemeetermini.png" alt="Voicemeeter Mini" width="144" height="144" loading="lazy" decoding="async">
+        </div>
+        <h3>Voicemeeter Mini <span class="badge soon">Coming soon</span></h3>
+        <p>Voicemeeter is great but way too big. This is better &mdash; just the faders and mutes, in a strip you can leave on screen.</p>
+        <p class="pending">In the works.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-art">
+          <img src="assets/videodownloader.png" alt="Video Downloader" width="144" height="144" loading="lazy" decoding="async">
+        </div>
+        <h3>Video Downloader <span class="badge soon">Coming soon</span></h3>
+        <p>Paste a link, get the video. Plain VOD and clip pulling for people who don&rsquo;t want a browser extension.</p>
+        <p class="pending">In the works.</p>
+      </div>
+
+      <!-- Placeholder tile — swap for an <img> once this tool has icon art. -->
+      <div class="card">
+        <div class="card-art">
+          <span class="ph" role="img" aria-label="TikTok Song Downloader">&#127925;</span>
+        </div>
+        <h3>TikTok Song Downloader <span class="badge soon">Coming soon</span></h3>
+        <p>Pulls the song out of a TikTok. Paste the link, keep the audio.</p>
+        <p class="pending">In the works.</p>
+      </div>
+
+    </div>
+
+    <!-- This used to sit under the hero. Moved down so the cards start higher —
+         it's context, not a headline. -->
+    <p class="notice">
+      <strong>Heads up &mdash; the old Hopzle web app is retired.</strong>
+      Accounts, uploads and cloud processing at hopzle.com are gone. Everything
+      Hopzle makes now lives in the Discord: tools you run yourself, released one
+      at a time, new ones dropping there first. Nothing to sign up for.
+    </p>
+
+  </main>
+
+  <footer>
+    <span>&copy; 2026 Hopzle</span>
+    <span class="footer-links">
+      <a href="https://discord.gg/r4z4EVnt9U">Discord</a>
+      <a href="https://github.com/scarylasers">GitHub</a>
+    </span>
+  </footer>
+
+</div>
+
+</body>
+</html>
