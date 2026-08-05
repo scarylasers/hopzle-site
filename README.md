@@ -1,10 +1,16 @@
 # hopzle-site
 
-The landing page at **hopzle.com**. One static HTML file whose whole job is to
-point people at the [Hopzle Discord](https://discord.gg/r4z4EVnt9U) and list the
-streamer tools as they ship.
+The landing page at **hopzle.com** for the **Hopzle Toolkit** — free tools for
+streamers, aimed particularly at people streaming from inside VR, where reaching
+a keyboard isn't an option.
+
+One static HTML file whose whole job is to point people at the
+[Hopzle Discord](https://discord.gg/r4z4EVnt9U) and list the tools as they ship.
 
 This replaces the old Hopzle web app, which is retired.
+
+The hero wordmark art only reads "HOPZLE" — "TOOLKIT" is set in Bungee beneath it
+(`.hero-kind`) so the lockup reads as the full name without needing new art.
 
 ## Cost
 
