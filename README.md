@@ -27,7 +27,7 @@ assets/
   hopperdock.png              HopperDock bunny
   bunnydeck.png               Bunny Deck paws
   streamhopper.png            Stream Hopper headset
-  gpumonitor.png              GPU Monitor chip glyph
+  vramhog.png                 VRAMHog bunny-pig
   voicemeetermini.png         Voicemeeter Mini fader panel
   videodownloader.png         VOD Downloader (file kept its old name)
   triggerword-alpha.webm      animated TriggerWord logo, VP9 + real alpha
