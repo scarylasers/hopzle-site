@@ -29,7 +29,7 @@ assets/
   streamhopper.png            Stream Hopper headset
   gpumonitor.png              GPU Monitor chip glyph
   voicemeetermini.png         Voicemeeter Mini fader panel
-  videodownloader.png         Video Downloader
+  videodownloader.png         VOD Downloader (file kept its old name)
   triggerword-alpha.webm      animated TriggerWord logo, VP9 + real alpha
   triggerword.mp4               └ H.264 fallback, black background baked in
   triggerword-still.webp        └ poster + frozen frame for prefers-reduced-motion
